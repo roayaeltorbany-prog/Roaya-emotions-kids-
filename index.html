@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roaya - تحليل المشاعر للأطفال</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🎨 Roaya - تحليل المشاعر للأطفال</h1>
+    <p class="subtitle">أداة ذكية لفهم حالة طفلك النفسية من خلال رسوماته</p>
+  </header>
+
+  <div class="main-content">
+    <div class="input-section">
+      <h2>معلومات الطفل</h2>
+      
+      <div class="form-group">
+        <label for="childName">اسم الطفل:</label>
+        <input type="text" id="childName" placeholder="أدخل اسم الطفل">
+      </div>
+
+      <div class="form-group">
+        <label for="childAge">عمر الطفل (سنوات):</label>
+        <input type="number" id="childAge" min="2" max="7" placeholder="2-7 سنوات">
+      </div>
+
+      <div class="form-group">
+        <label for="drawingInput">رفع الرسم:</label>
+        <input type="file" id="drawingInput" accept="image/*">
+        <div id="imagePreview" class="image-preview"></div>
+      </div>
+
+      <button onclick="analyzeDrawing()" class="analyze-btn">📊 تحليل الرسم</button>
+    </div>
+
+    <div class="results-section">
+      <div id="results"></div>
+      <canvas id="chart" width="400" height="200"></canvas>
+      <div id="recommendation" class="recommendation"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>⚠️ هذا التطبيق يقدم تحليلاً أولياً فقط وليس تشخيصاً نهائياً</p>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
