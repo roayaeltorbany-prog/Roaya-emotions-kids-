@@ -1,57 +1,46 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roaya - تحليل المشاعر للأطفال</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Emotion Analysis App">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.png" sizes="192x192" />
+    <title>Emotion Analysis App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header { background: #4CAF50; color: white; text-align: center; padding: 1em 0; }
+        .container { padding: 20px; }
+        .emotion-buttons { display: flex; justify-content: space-around; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
 </head>
 <body>
-
-<div class="container">
-  <header>
-    <h1>🎨 Roaya - تحليل المشاعر للأطفال</h1>
-    <p class="subtitle">أداة ذكية لفهم حالة طفلك النفسية من خلال رسوماته</p>
-  </header>
-
-  <div class="main-content">
-    <div class="input-section">
-      <h2>معلومات الطفل</h2>
-      
-      <div class="form-group">
-        <label for="childName">اسم الطفل:</label>
-        <input type="text" id="childName" placeholder="أدخل اسم الطفل">
-      </div>
-
-      <div class="form-group">
-        <label for="childAge">عمر الطفل (سنوات):</label>
-        <input type="number" id="childAge" min="2" max="7" placeholder="2-7 سنوات">
-      </div>
-
-      <div class="form-group">
-        <label for="drawingInput">رفع الرسم:</label>
-        <input type="file" id="drawingInput" accept="image/*">
-        <div id="imagePreview" class="image-preview"></div>
-      </div>
-
-      <button onclick="analyzeDrawing()" class="analyze-btn">📊 تحليل الرسم</button>
+    <header>
+        <h1>Emotion Analysis App</h1>
+    </header>
+    <div class="container">
+        <h2>Select Emotion</h2>
+        <div class="emotion-buttons">
+            <button id="happy">Happy</button>
+            <button id="sad">Sad</button>
+            <button id="angry">Angry</button>
+            <button id="surprised">Surprised</button>
+        </div>
+        <footer>
+            <p>&copy; 2026 Emotion Analysis App</p>
+        </footer>
     </div>
-
-    <div class="results-section">
-      <div id="results"></div>
-      <canvas id="chart" width="400" height="200"></canvas>
-      <div id="recommendation" class="recommendation"></div>
-    </div>
-  </div>
-
-  <footer>
-    <p>⚠️ هذا التطبيق يقدم تحليلاً أولياً فقط وليس تشخيصاً نهائياً</p>
-  </footer>
-</div>
-
-<script src="app.js"></script>
-
+    <script>
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                }).catch(function(error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
+    </script>
 </body>
 </html>
