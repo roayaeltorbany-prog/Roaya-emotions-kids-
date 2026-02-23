@@ -1,36 +1,34 @@
-// app.js
+const tf = require('@tensorflow/tfjs'); // Import TensorFlow.js
+const { createCanvas, loadImage } = require('canvas');
 
-// Emotion Analysis Algorithm for the Roaya Emotions Application
+const modelPath = 'path/to/your/model.json'; // Specify path to your model
+let model;
 
-// A simple function to analyze the sentiment of a given text.
-function analyzeEmotion(text) {
-    // In a real-world application, you could use an NLP library or API
-    const emotions = {
-        positive: /happy|joy|love|excited/i,
-        negative: /sad|angry|hate|frustrated/i,
-        neutral: /okay|fine|meh/i
-    };
-    
-    let score = { positive: 0, negative: 0 };
-
-    // Analyze the text
-    if (emotions.positive.test(text)) {
-        score.positive++;
-    }
-    if (emotions.negative.test(text)) {
-        score.negative++;
-    }
-
-    // Return the score or emotion detected
-    if (score.positive > score.negative) {
-        return 'Positive Emotion Detected';
-    } else if (score.negative > score.positive) {
-        return 'Negative Emotion Detected';
-    } else {
-        return 'Neutral Emotion Detected';
-    }
+// Load the emotion detection model
+async function loadModel() {
+    model = await tf.loadLayersModel(modelPath);
 }
 
-// Example usage
-const exampleText = 'I am so happy about this project!';
-console.log(analyzeEmotion(exampleText));
+// Process the image and make predictions
+async function detectEmotion(imagePath) {
+    const img = await loadImage(imagePath);
+    const canvas = createCanvas(img.width, img.height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    const imageTensor = tf.browser.fromPixels(canvas);
+    const resizedImage = tf.image.resizeBilinear(imageTensor, [224, 224]); // Resize to match model input
+    const inputTensor = resizedImage.expandDims(0).div(255.0); // Normalize the image
+
+    const predictions = await model.predict(inputTensor).data();
+    const emotionIndex = predictions.indexOf(Math.max(...predictions));
+    const emotionLabels = ['happy', 'sad', 'angry', 'surprised', 'disgusted', 'neutral']; // Define emotion labels
+    return emotionLabels[emotionIndex];
+}
+
+// Main function to run the emotion detection
+(async () => {
+    await loadModel();
+    const emotion = await detectEmotion('path/to/child_drawing.jpg'); // Specify drawing path
+    console.log(`Detected Emotion: ${emotion}`);
+})();
